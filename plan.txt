@@ -1,0 +1,85 @@
+Looking tomake a fighting game 
+an AI fighting game RPG where the characters will evolve in different ways
+first will be a basic test game 
+then plan to add graphical elements
+
+CONSTANTS:
+ events per cycle
+ directions 
+ moves
+VARIABLES:
+ character position 
+ health 
+ timer
+ 
+ CYCLE
+ lv 0 (skeleton)
+
+Main Cylce,
+Start -> QUEUE, LOOP, CONSTANT
+   Status -> OUTPUT
+   Player 1 decide -> QUEUE
+   Player 2 decide - > QUEUE
+   PROCESS -> CALCULATION
+ END -> 
+
+Status Cycle,
+Start ->
+    print time 
+    check can continue 
+    print p1 health
+    print p2 health
+END ->
+
+Player Cycle,
+Start -> QUEUE
+    CHOICE ATTACK -> 
+    CHOICE DEFEND -> 
+END -> 
+ 
+PROCESS Cycle, 
+P1.choiceAttack vs P2.choiceDefend
+P2.choiceAttack vs P1.choiceDefend
+ ------------------------------
+ 
+ CYCLE
+ lv 1 (skeleton extra bones)
+ 
+Start -> 
+   Status -> OUTPUT,
+       time
+       health
+       position
+       last action
+   Player 1 decide -> QUEUE, 
+       Move
+       Attack
+       Defend
+   Player 2 decide - > QUEUE, 
+       Move
+       Attack
+       Defend
+   Execute ->
+ END -> 
+ 
+ 
+  CYCLE
+ lv 2 (nerves)
+ 
+Start -> 
+   Status -> OUTPUT,
+       time: arena.time
+       health: p1.health, p2.health
+       position: p1.position, p2.position
+       last action p1.last action, p2.last action
+   Player 1 decide -> QUEUE, 
+       Move: P1.nextPosition
+       Attack: P1.nextAttack
+       Defend: P1.Defend
+   Player 2 decide - > QUEUE, 
+       Move: P1.nextPosition
+       Attack: P1.nextAttack
+       Defend: P1.Defend
+   Execute ->
+ END -> 
+ 

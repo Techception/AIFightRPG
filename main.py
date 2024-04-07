@@ -14,6 +14,17 @@
 #CYCLE
 #Start -> 
 #   Status -> 
-#   Player 1 decide -> Player 2 decide - > 
+#       time: arena.time
+#       health: p1.health, p2.health
+#       position: p1.position, p2.position
+#       last action p1.last action, p2.last action
+#   Player 1 decide -> 
+#       Move.nextPosition
+#       Attack.nextAttack
+#       Defend
+#   Player 2 decide - > 
+#       Move
+#       Attack
+#       Defend
 #   Execute ->
 # END -> 
