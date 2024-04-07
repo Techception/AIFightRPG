@@ -18,8 +18,9 @@ VARIABLES:
 Main Cylce,
 Start -> QUEUE, LOOP, CONSTANT
    Status -> OUTPUT
-   Player 1 decide -> QUEUE
-   Player 2 decide - > QUEUE
+   PLAYER ->
+    Player 1 decide -> QUEUE
+    Player 2 decide - > QUEUE
    PROCESS -> CALCULATION
  END -> 
 
