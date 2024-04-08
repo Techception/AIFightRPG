@@ -1,17 +1,22 @@
+#max values 
 MAX_CYCLE = 60
 MAX_HEALTH = 16
 MAX_ATTACK = 12
 
-
+#initial payer 
 p1_alive = True 
-p2_alive = True
-p1_health = MAX_HEALTH
 p2_health = MAX_HEALTH
+
+p1_health = MAX_HEALTH
+p2_alive = True
+
+#initial clock
 timer = MAX_CYCLE
+stillTime = 1 
+
 
 p1Vp2 = 0 
 p2Vp1 = 0 
-stillTime = 1 
 
 
 PLAY = True 
