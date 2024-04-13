@@ -1,57 +1,43 @@
+
+import functions
+import classes
+
+PLAY = True 
+
 #max values 
 MAX_CYCLE = 60
 MAX_HEALTH = 16
 MAX_ATTACK = 12
 
-#initial payer 
-p1_alive = True 
-p2_health = MAX_HEALTH
-
-p1_health = MAX_HEALTH
-p2_alive = True
-
-#initial clock
-timer = MAX_CYCLE
-stillTime = 1 
-
-
-p1Vp2 = 0 
-p2Vp1 = 0 
-
-
-PLAY = True 
-cycle = 0
+p1 = classes.character(MAX_HEALTH)
+p2 = classes.character(MAX_HEALTH)
 #Main Cylce
-while PLAY:
+cycle = -1
+while cycle < MAX_CYCLE: #continue if time remain 
+    cycle += 1
     #Status
-    print("---")
-    print(f'Start Cycle Continue: {PLAY}')
-    print(f'Time: {timer}')
-    print(f'p1Vp2: {p1Vp2}')
-    print(f'p2Vp1: {p2Vp1}')
-    print(f'p1_health: {p1_health}')
-    print(f'p2_health: {p2_health}')
+    countdown = MAX_CYCLE - cycle
+    functions.status(countdown, p1, p2)
+    if p1.KO or p2.KO: #if a character is KO'd then who won? 
+        functions.who_won(p1, p2)
+        break
     
     #PLAYER
-    #Player 1 decide
-    p1_attack = 1
-    p1_defend = 1
-    #Player 2 decide
-    p2_attack = 1
-    p2_defend = 1
-    
+    #Player 1 and 2 decide on action 
+    actionQueue = {
+        'p1': p1.attack(cycle),
+        'p2': p2.attack(cycle)
+    }
+    #print("type ", type(actionQueue['p1']))
+
     #PROCESS
     #Players
-    p1Vp2 = p2_defend - p1_attack
-    p2Vp1 = p1_defend - p2_attack
-    p1_health -= p1Vp2
-    p2_health -= p2Vp1
-    p1_alive = p1_health > 0 
-    p2_alive = p1_health > 0 
-    #clock
-    cycle += 1
-    timer = MAX_CYCLE - cycle
-    stillTime = timer >= 0 
-    PLAY = (stillTime == p1_alive == p2_alive)
-    print(f'End Cycle Continue: {PLAY}')
+    #calculate damage
+    reactionQueue = {
+        'p1': p1.take_damage(actionQueue['p2']),
+        'p2': p2.take_damage(actionQueue['p1'])
+    }
+        
+    
+        
     
