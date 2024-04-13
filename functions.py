@@ -14,3 +14,12 @@ def who_won(p1:object, p2:object):
         print('Player 1 wins')
     elif p1.KO:
         print('player 2 wins')
+        
+def test():
+    print('a')
+    
+def test2():
+    print('b')
+    
+tests = [test, test2]
+tests[1]()

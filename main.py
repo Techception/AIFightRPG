@@ -29,6 +29,7 @@ while cycle < MAX_CYCLE: #continue if time remain
         'p2': p2.attack(cycle)
     }
     #print("type ", type(actionQueue['p1']))
+    #print(actionQueue)
 
     #PROCESS
     #Players
