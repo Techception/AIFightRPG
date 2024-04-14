@@ -9,13 +9,13 @@ class character:
         
 
     def act(self):
+        action = {'hit':None,'graphic':None}
         #queue the next action if queue is empty 
         if len(self.actionQueue) == 0:
             self.attack_queue()
         #pop off the last item in the queue and action 
         if len(self.actionQueue) > 0:
             action = self.actionQueue.pop()
-            animations.draw(action)
         return action
         
     def attack_queue(self):
@@ -26,6 +26,7 @@ if __name__ == '__main__':
     p1 = character()
     
     while True:
-        p1.act()
+        action = p1.act()
+        animations.draw(action)
 
     
