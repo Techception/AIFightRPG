@@ -25,14 +25,9 @@ while cycle < MAX_CYCLE: #continue if time remain
     if p1.KO or p2.KO: #if a character is KO'd then who won? 
         functions.who_won(p1, p2)
         break
-    
-    #PLAYER
-    #Player 1 and 2 decide on action
-    #p1.relax()
-    #p2.relax()
+
     p1.act()
-    #print("type ", type(actionQueue['p1']))
-    #print(actionQueue)
+
 
 
     

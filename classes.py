@@ -7,7 +7,10 @@ class character:
         self.health = MAX_HEALTH
         self.actionQueue = []
         
-
+    def __str__(self):
+        status = f'{self.name}: {self.health}'
+        return status
+        
     def act(self):
         action = {'hit':None,'graphic':None}
         #queue the next action if queue is empty 
@@ -20,13 +23,18 @@ class character:
         
     def attack_queue(self):
         self.actionQueue += animations.animation_cycle_attack
+        
     
         
 if __name__ == '__main__':
+    import functions
     p1 = character()
+    p2 = character()
     
-    while True:
-        action = p1.act()
-        animations.draw(action)
+    while (p1.health > 0) and (p2.health > 0):
+        functions.calculate_action(p1, p2)
+        print(p1,p2)
+        
+    functions.who_won(p1, p2)
 
     
