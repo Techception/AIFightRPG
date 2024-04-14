@@ -4,9 +4,11 @@ class character:
     #state = {'neutral': True,'attack': False,'defend': False}
     #cooldown = 0
     #KO = False
+    MAX_STARTUP = 4
     def __init__(self, name:str='nemo', MAX_HEALTH:int=60, speed:int=1) -> None:
         self.state = {'neutral': True,'attack': False,'defend': False}
         self.cooldown = 0
+        self.startup = 0
         self.KO = False
         self.name = name
         self.health = MAX_HEALTH
@@ -20,8 +22,7 @@ class character:
         return status
         
     def changeState(self, state:str) -> None:
-        for key in self.state:
-            self.state[key] = False
+        self.state = {'neutral': False,'attack': False,'defend': False}
         self.state[state] = True
         
     def neutral(self) -> bool:
@@ -47,16 +48,30 @@ class character:
         neutralStance = self.state['neutral']
         if neutralStance:
             self.changeState('attack')
+            self.startup = self.MAX_STARTUP
             self.cooldown = 4
             print(self.name, end=' ')
-            print('attack')
-            return random.choice([True, False])
+            print('attacking')
         else: 
             print(self.name, end=' ')
             print('no action')
-            return False
+        return False
+            
+    def attack_action(self):
+        hit = False
+        if self.startup == 0:
+            hit = random.choice([True, False])
+            self.startup = 0
+            print(self.name, end=' ')
+            print('struk')
+        else: 
+            self.striking()
+        return hit
     
     def act(self, cycle:int, p2:object):
+        attackStance = self.state['attack']
+        if attackStance:
+            return self.attack_action()
         if self.cooldown == 0:
             action = random.choice(self.actions)
             return action()
@@ -66,8 +81,15 @@ class character:
         return False
         
     def relax(self):
+        print(self.name, end=' ')
+        print(f'cool down Frames remaining {self.cooldown}')
         if self.cooldown > 0:
             self.cooldown = self.cooldown - 1
+    def striking(self):
+        print(self.name, end=' ')
+        print(f'start up Frames remaining {self.cooldown}')
+        if self.startup > 0:
+            self.startup = self.startup - 1
 
     def take_damage(self, opponentAction:bool) -> None: 
         #print(opponentAction)
