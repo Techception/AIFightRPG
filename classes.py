@@ -2,12 +2,6 @@ import random
 import copy
 
 class character:
-    #state = {'neutral': True,'attack': False,'defend': False}
-    #cooldown = 0
-    #KO = False
-    MAX_STARTUP = 4
-    #attackSequence = ['make fist','throw fist','strike','retract fist','neutral']
-    attackSequence = [False, False, True, False, False]
     def __init__(self, name:str='nemo', MAX_HEALTH:int=60, speed:int=1) -> None:
         self.state = {'neutral': True,'attack': False,'defend': False}
         self.cooldown = 0
@@ -16,8 +10,7 @@ class character:
         self.name = name
         self.health = MAX_HEALTH
         self.speed = speed
-        #self.actions = [self.attack, self.defend, self.neutral] 
-        self.attackFrames = copy.deepcopy(character.attackSequence)
+        self.actionQueue = []
         
     def __str__(self):
         #currentState 
@@ -25,25 +18,24 @@ class character:
         status = f'{self.name} {currentState}: {self.health} (HP) {self.cooldown} (CD)'
         return status
         
-        
-    def attack(self) -> bool:
-        if len(self.attackFrames) == 0:
-            self.attackFrames = copy.deepcopy(character.attackSequence)
-            return False
-        else:
-            return self.attackFrames.pop()
-    
-    def act(self, cycle:int, p2:object):
-        print(self.attackFrames)
-        return self.attack()
-        
+    #def decide(self):
+    #    if len(self.actionQueue) == 0:
+    #        self.attack_queue()
 
-    def take_damage(self, opponentAction:bool) -> None: 
-        #print(opponentAction)
-        takeDamage = not(self.state['defend'])
-        totalDamage = opponentAction * takeDamage
-        self.health -= totalDamage
-        self.KO = self.health < 0
+    def act(self):
+        #queue the next action if queue is empty 
+        if len(self.actionQueue) == 0:
+            self.attack_queue()
+        #pop off the last item in the queue and action 
+        if len(self.actionQueue) > 0:
+            action = self.actionQueue.pop()
+        return action
+        
+    def attack_queue(self):
+        attackDamage = random.choice([True,False])
+        attackSequence = [False, False, attackDamage, False, False]
+        self.actionQueue += attackSequence
+    
         
 if __name__ == '__main__':
     print(character.attackSequence)

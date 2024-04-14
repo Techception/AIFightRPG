@@ -30,21 +30,11 @@ while cycle < MAX_CYCLE: #continue if time remain
     #Player 1 and 2 decide on action
     #p1.relax()
     #p2.relax()
-    actionQueue = {
-        'p1': p1.act(cycle,p2),
-        'p2': p2.act(cycle,p1)
-    }
+    p1.act()
     #print("type ", type(actionQueue['p1']))
     #print(actionQueue)
 
-    #PROCESS
-    #Players
-    #calculate damage
-    reactionQueue = {
-        'p1': p1.take_damage(actionQueue['p2']),
-        'p2': p2.take_damage(actionQueue['p1'])
-    }
-        
+
     
         
     
