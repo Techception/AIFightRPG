@@ -1,10 +1,13 @@
 import random
+import copy
 
 class character:
     #state = {'neutral': True,'attack': False,'defend': False}
     #cooldown = 0
     #KO = False
     MAX_STARTUP = 4
+    #attackSequence = ['make fist','throw fist','strike','retract fist','neutral']
+    attackSequence = [False, False, True, False, False]
     def __init__(self, name:str='nemo', MAX_HEALTH:int=60, speed:int=1) -> None:
         self.state = {'neutral': True,'attack': False,'defend': False}
         self.cooldown = 0
@@ -13,7 +16,8 @@ class character:
         self.name = name
         self.health = MAX_HEALTH
         self.speed = speed
-        self.actions = [self.attack, self.defend, self.neutral] 
+        #self.actions = [self.attack, self.defend, self.neutral] 
+        self.attackFrames = copy.deepcopy(character.attackSequence)
         
     def __str__(self):
         #currentState 
@@ -21,75 +25,18 @@ class character:
         status = f'{self.name} {currentState}: {self.health} (HP) {self.cooldown} (CD)'
         return status
         
-    def changeState(self, state:str) -> None:
-        self.state = {'neutral': False,'attack': False,'defend': False}
-        self.state[state] = True
-        
-    def neutral(self) -> bool:
-        self.changeState('neutral')
-        self.cooldown = 1
-        print(self.name, end=' ')
-        print('neutral')
-        return False
-        
-    def defend(self) -> bool:
-        neutralStance = self.state['neutral']
-        if neutralStance:
-            self.changeState('defend')
-            self.cooldown = 2
-            print(self.name, end=' ')
-            print('defend')
-        else: 
-            print(self.name, end=' ')
-            print('no action')
-        return False
         
     def attack(self) -> bool:
-        neutralStance = self.state['neutral']
-        if neutralStance:
-            self.changeState('attack')
-            self.startup = self.MAX_STARTUP
-            self.cooldown = 4
-            print(self.name, end=' ')
-            print('attacking')
-        else: 
-            print(self.name, end=' ')
-            print('no action')
-        return False
-            
-    def attack_action(self):
-        hit = False
-        if self.startup == 0:
-            hit = random.choice([True, False])
-            self.startup = 0
-            print(self.name, end=' ')
-            print('struk')
-        else: 
-            self.striking()
-        return hit
+        if len(self.attackFrames) == 0:
+            self.attackFrames = copy.deepcopy(character.attackSequence)
+            return False
+        else:
+            return self.attackFrames.pop()
     
     def act(self, cycle:int, p2:object):
-        attackStance = self.state['attack']
-        if attackStance:
-            return self.attack_action()
-        if self.cooldown == 0:
-            action = random.choice(self.actions)
-            return action()
-        else:
-            print(self.name, end=' ')
-            print('no action')
-        return False
+        print(self.attackFrames)
+        return self.attack()
         
-    def relax(self):
-        print(self.name, end=' ')
-        print(f'cool down Frames remaining {self.cooldown}')
-        if self.cooldown > 0:
-            self.cooldown = self.cooldown - 1
-    def striking(self):
-        print(self.name, end=' ')
-        print(f'start up Frames remaining {self.cooldown}')
-        if self.startup > 0:
-            self.startup = self.startup - 1
 
     def take_damage(self, opponentAction:bool) -> None: 
         #print(opponentAction)
@@ -99,9 +46,6 @@ class character:
         self.KO = self.health < 0
         
 if __name__ == '__main__':
-    cycle = 1
-    p1 = character()
-    p2 = character()
-    print(p1)
+    print(character.attackSequence)
 
     
