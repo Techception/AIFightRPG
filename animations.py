@@ -26,19 +26,34 @@ class animation:
         ]
         
     faceRight_walk = [
-        {'hit': None, 'graphic': " 0 \n<|\ \n | \n"},
-        {'hit': None, 'graphic': " 0 \n/|\ \n |7\n"},
-        {'hit': None, 'graphic': " 0 \n/|\ \n/ \ \n"}
+        {'hit': None, 'graphic': "{offset} 0 \n{offset}<|\ \n{offset} | \n{offset}"},
+        {'hit': None, 'graphic': "{offset} 0 \n{offset}/|\ \n{offset} |7\n{offset}"},
+        {'hit': None, 'graphic': "{offset} 0 \n{offset}/|\ \n{offset}/ \ \n{offset}"}
         ]
     
+    def walk(self,vector:int=0):
+        import functions
+        import copy
+        n = 0
+        offset = 0
+        while vector > 0:
+            offset = offset + 1
+            move = f" "*offset
+            index = n%3
+            #print(move)
+            
+            frame = copy.deepcopy(self.faceRight_walk)
+            frame = frame[index]
+            frame["graphic"] = frame["graphic"].replace("{offset}",move)
+            functions.draw(frame)
+            #print(frame["graphic"])
+            
+            n = n + 1
+            vector = vector - 1 
+            
+    def __init__(self):
+        pass 
 
 if __name__ == "__main__":
-    import functions
-    
     frames = animation()
-    n = 0
-    while True:
-        index = n%3
-        frame = frames.faceRight_walk[index]
-        n = n + 1 
-        functions.draw(frame)
+    frames.walk(100)
