@@ -1,85 +1,42 @@
-import random
+import animations
 
 class character:
-    #state = {'neutral': True,'attack': False,'defend': False}
-    #cooldown = 0
-    #KO = False
-    def __init__(self, name:str='nemo', MAX_HEALTH:int=60, speed:int=1) -> None:
-        self.state = {'neutral': True,'attack': False,'defend': False}
-        self.cooldown = 0
+    def __init__(self, name:str='nemo', MAX_HEALTH:int=60, speed:int=1, start_facing_pos:str = 'right') -> None:
         self.KO = False
         self.name = name
         self.health = MAX_HEALTH
-        self.speed = speed
-        self.actions = [self.attack, self.defend, self.neutral] 
+        self.actionQueue = []
+        self.x_pos = 0
+        self.y_pos = 0
         
     def __str__(self):
-        #currentState 
-        currentState = [k for k,v in self.state.items() if v]
-        status = f'{self.name} {currentState}: {self.health} (HP) {self.cooldown} (CD)'
+        status = f'{self.name}: {self.health}'
         return status
         
-    def changeState(self, state:str) -> None:
-        for key in self.state:
-            self.state[key] = False
-        self.state[state] = True
+    def act(self):
+        action = {'hit':None,'graphic':None}
+        #queue the next action if queue is empty 
+        if len(self.actionQueue) == 0:
+            self.attack_queue()
+        #pop off the last item in the queue and action 
+        if len(self.actionQueue) > 0:
+            action = self.actionQueue.pop()
+        return action
         
-    def neutral(self) -> bool:
-        self.changeState('neutral')
-        self.cooldown = 1
-        print(self.name, end=' ')
-        print('neutral')
-        return False
+    def attack_queue(self):
+        self.actionQueue += animations.animation_cycle_attack
         
-    def defend(self) -> bool:
-        neutralStance = self.state['neutral']
-        if neutralStance:
-            self.changeState('defend')
-            self.cooldown = 2
-            print(self.name, end=' ')
-            print('defend')
-        else: 
-            print(self.name, end=' ')
-            print('no action')
-        return False
-        
-    def attack(self) -> bool:
-        neutralStance = self.state['neutral']
-        if neutralStance:
-            self.changeState('attack')
-            self.cooldown = 4
-            print(self.name, end=' ')
-            print('attack')
-            return random.choice([True, False])
-        else: 
-            print(self.name, end=' ')
-            print('no action')
-            return False
     
-    def act(self, cycle:int, p2:object):
-        if self.cooldown == 0:
-            action = random.choice(self.actions)
-            return action()
-        else:
-            print(self.name, end=' ')
-            print('no action')
-        return False
-        
-    def relax(self):
-        if self.cooldown > 0:
-            self.cooldown = self.cooldown - 1
-
-    def take_damage(self, opponentAction:bool) -> None: 
-        #print(opponentAction)
-        takeDamage = not(self.state['defend'])
-        totalDamage = opponentAction * takeDamage
-        self.health -= totalDamage
-        self.KO = self.health < 0
         
 if __name__ == '__main__':
-    cycle = 1
+    import functions
     p1 = character()
     p2 = character()
-    print(p1)
+    
+    while (p1.health > 0) and (p2.health > 0):
+        functions.calculate_action(p1, p2)
+        print(p1,p2)
+        
+    functions.who_won(p1, p2)
 
     
