@@ -12,19 +12,33 @@ attack_frame3 = {'hit':True,'graphic':attack_graphic_frame3}
 animation_cycle_attack = [attack_frame1, attack_frame2, attack_frame3, attack_frame2, attack_frame1]
 
 
+class animation:
+    faceRight_neutral = [
+        {'hit': None,'graphic': "0  \n|  \n|  \n"}
+        ]
+        
+    faceRight_attack = [
+        {'hit': False, 'graphic': "0  \n|v \n|  \n"}, 
+        {'hit': False, 'graphic': " 0 \n<|-\n | \n"}, 
+        {'hit': True,  'graphic': " 0  \n<|--\n/ 7 \n"},
+        {'hit': False, 'graphic': " 0 \n<|-\n | \n"}, 
+        {'hit': False, 'graphic': "0  \n|v \n|  \n"}
+        ]
+        
+    faceRight_walk = [
+        {'hit': None, 'graphic': " 0 \n<|\ \n | \n"},
+        {'hit': None, 'graphic': " 0 \n/|\ \n |7\n"},
+        {'hit': None, 'graphic': " 0 \n/|\ \n/ \ \n"}
+        ]
     
 
 if __name__ == "__main__":
     import functions
-    #print(neutral)
-    print(attack_frame1['graphic'])
-    print(attack_frame2['graphic'])
-    print(attack_frame3['graphic'])
     
-    frames = animation_cycle_attack[:]
+    frames = animation()
+    n = 0
     while True:
-        if len(frames) == 0:
-            frames = animation_cycle_attack[:]
-        else:
-            frame = frames.pop()
-            functions.draw(frame)
+        index = n%3
+        frame = frames.faceRight_walk[index]
+        n = n + 1 
+        functions.draw(frame)

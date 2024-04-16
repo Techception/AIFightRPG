@@ -1,11 +1,13 @@
 import animations
 
 class character:
-    def __init__(self, name:str='nemo', MAX_HEALTH:int=60, speed:int=1) -> None:
+    def __init__(self, name:str='nemo', MAX_HEALTH:int=60, speed:int=1, start_facing_pos:str = 'right') -> None:
         self.KO = False
         self.name = name
         self.health = MAX_HEALTH
         self.actionQueue = []
+        self.x_pos = 0
+        self.y_pos = 0
         
     def __str__(self):
         status = f'{self.name}: {self.health}'
